@@ -90,9 +90,11 @@
   mínimo. ¿Qué cuestiones problemáticas pueden surgir si algunas de
   las \(w_i\) son negativas?
   \begin{solution}
-    d_\theta f\left(\theta\right) = d_\theta ( \sum_{i=1}^n w_i (\theta-x_i)^2) \newline
-    \longrightarrow \theta = \sum_{i=1}^n 2(\theta - x_i) \newline
-    \longrightarrow \theta = \sum_{i=1}^n 2\theta - \sum_{i=1}^n 2x_i
+    \[
+    d_\theta f\left(\theta\right) = d_\theta ( \sum_{i=1}^n w_i (\theta-x_i)^2)\]
+    \[ \longrightarrow \theta = \sum_{i=1}^n 2(\theta - x_i)\] 
+    \[ \longrightarrow \theta = \sum_{i=1}^n 2\theta - \sum_{i=1}^n 2x_i\]
+    
   \end{solution}
 \item%
   Considera las siguientes funciones,
@@ -197,7 +199,10 @@
   %% 
   \begin{solution}
   %%
-    f(C) = \sum_{i=0}^n
+     Como se trata de 3 rectangulos, y la posicion y tamaño de estas no importa, mientras que las esquinas de estos esten en la cuadricula, podemos usar dos esquinas opuestas de dos rectangulos diferentes para crear otro rectangulo, del cual seleccionamos otras 4 esquinas opuestas para crear otros dos rectangulos. Esto nos da un total de $n^2 * n^2 * n^2$, o $ n^6 $ opciones, el cual se debe dividir entre las formas de crear los rectangulos:
+     \[ \frac{n^6}{3!} \]
+     Lo cual se puede expresar Asintoticamente como: $ O(n^6) $
+    %%\[ f(C) = \sum_{i=0}^n \]
   %%
   \end{solution}
 \item%
