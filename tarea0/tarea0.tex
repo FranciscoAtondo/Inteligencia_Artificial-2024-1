@@ -17,6 +17,7 @@
 \usepackage{enumitem,amssymb}
 \usepackage{titling}
 \usepackage[default]{fontsetup}
+\usepackage{listings}
 
 
 \setdefaultlanguage{spanish}
@@ -205,6 +206,7 @@
     %%\[ f(C) = \sum_{i=0}^n \]
   %%
   \end{solution}
+\newpage
 \item%
   Supongamos que tienes una cuadrícula de puntos de \(n \times 2n\).
   Comenzamos en el punto de la esquina superior izquierda (el punto en
@@ -222,7 +224,20 @@
   tiempo de ejecución?
   %% 
   \begin{solution}
-    %% Escribe tu solución aquí
+    \begin{lstlisting}[language=Python]
+    def costoMinimo(n, c):
+    # Se inicializa el valor para la recurrencia.
+    recurrencia[i][j] = [[0] * (2 * n + 1) for _ in range(n + 1)]
+
+    #Como el primer punto se encuentra en (1,1),
+    #se suma un 1 a los valores maximos.
+    for i in range(1, n + 1):
+        for j in range(1, 2 * n + 1):
+            recurrencia[i][j] = min(recurrencia[i-1][j], recurrencia[i][j-1]) + c(i, j)
+    
+    return recurrencia[n][2*n]
+
+    \end{lstlisting}
   \end{solution}
 \end{enumerate}
 
@@ -250,8 +265,9 @@
   alguien que no incumple como probable que incumpla.
   %% 
   \begin{solution}
-    %% Escribe tu solución aquí
+    Si bien el origen de este problema podria ser socio-cultural, una solucion es implementar una verificacion especial sobre candidatos que cumplan ciertas caracteristicas(como su etnicidad y localizacion) en la que se ignore tales factores y se de prioridad a su Puntuacion Crediticea y su Historial de Pagos actual.
   \end{solution}
+\newpage
 \item%
   La estilometría es una forma de predecir la autoría de un texto
   anónimo o impugnado, mediante el análisis de los patrones de
