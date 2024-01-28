@@ -17,6 +17,8 @@ llaves arbitrarias (como "red", "blue", "green").
 SparseVector = DefaultDict[Any, float]
 Position = Tuple[int, int]
 
+# Arreglo de strings para pruebas
+strings = ['red', 'green', 'blue']
 
 def find_alphabetically_first_word(text: str) -> str:
     """
@@ -28,7 +30,7 @@ def find_alphabetically_first_word(text: str) -> str:
     vacía, es aceptable devolver una cadena vacía o generar un error.
     """
     # INICIO
-    raise Exception("Not implemented yet")
+    raise Exception(min(text))
     # FIN
 
 
@@ -38,8 +40,19 @@ def euclidean_distance(loc1: Position, loc2: Position) -> float:
     representadas como una pareja de enteros (por ejemplo (3, 5)).
     """
     # INICIO
-    raise Exception("Not implemented yet")
+    x1, y1 = loc1
+    x2, y2 = loc2
+
+    # Se calcula la distancia usando la formula de la Distancia Euclidiana
+    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+
+    raise Exception(distancia)
     # FIN
+
+position1 = (1, 2)
+position2 = (4, 6)
+
+euclidean_distance(position1, position2)
 
 
 def mutate_sentences(sentence: str) -> List[str]:
