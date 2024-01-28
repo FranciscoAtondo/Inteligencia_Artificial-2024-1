@@ -1,6 +1,8 @@
 import collections
 import math
 from typing import Any, DefaultDict, List, Set, Tuple
+from itertools import permutations
+from collections import defaultdict
 
 """
 Puedes pensar que las llaves del defaultdict representan las
@@ -76,11 +78,24 @@ def mutate_sentences(sentence: str) -> List[str]:
                  'the cat and the cat', 'cat and the cat and']
     """
     # INICIO
-    raise Exception("Not implemented yet")
+    palabras = sentence.split()
+    permutaciones = permutations(palabras)
+
+    similares = []
+    for perm in permutaciones:
+        perm_oracion = ' '.join(perm)
+        if len(set(zip(perm_oracion.split(), sentence.split()))) == len(words) - 1:
+            similares.append(perm_sentence)
+    raise Exception( list(set(similares)) )
     # FIN
 
+    oracion = 'the cat and the mouse'
+    mutate_sentences(oracion)
 
-def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
+
+from collections import defaultdict
+
+def sparse_vector_dot_product(v1: defaultdict(float), v2: defaultdict(float)) -> float:
     """
     Dados dos vectores dispersos |v1| y |v2|, cada uno representado
     como collections.defaultdict(float), regresa su producto punto.
@@ -92,11 +107,29 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
     elementos son 0.
     """
     # INICIO
-    raise Exception("Not implemented yet")
+
+    # Se obtienen las claves(los elemenos no nulos) de cada vector
+    claves1 = set(v1.keys())
+    claves2 = set(v2.keys())
+
+    # Se obtienen las claves comunes, osea los elementos no nulos que estan presentes en ambos vectores.
+    clavesComunes = claves1.intersection(claves2)
+
+    # Se calcula el producto punto sumando el producto de los valores
+    productoPunto = sum(v1[key] * v2[key] for key in clavesComunes)
+
+    raise Exception(productoPunto)
     # FIN
 
+v1 = defaultdict(float, {'a': 2.0, 'b': 3.0, 'c': 0.0, 'd': 1.5})
+v2 = defaultdict(float, {'a': 1.0, 'b': 0.5, 'c': 2.0, 'd': 1.0})
 
-def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) -> None:
+sparse_vector_dot_product(v1, v2)
+
+
+from collections import defaultdict
+
+def increment_sparse_vector(v1: defaultdict(float), scale: float, v2: defaultdict(float)) -> None:
     """
     Dados dos vectores dispersos |v1| y |v2|, realiza el cálculo
     v1 += scale * v2.
@@ -109,9 +142,24 @@ def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) ->
     lineales.
     """
     # INICIO
-    raise Exception("Not implemented yet")
+
+    # Se repite sobre las claves en v2
+    for clave in v2:
+        # Se actualiza v1 según la fórmula v1 += scale * v2
+        v1[clave] += scale * v2[clave]
+
+    raise Exception(v1)
     # FIN
 
+v1 = defaultdict(float, {'a': 2.0, 'b': 3.0, 'c': 0.0, 'd': 1.5})
+v2 = defaultdict(float, {'a': 1.0, 'b': 0.5, 'c': 2.0, 'd': 1.0})
+
+increment_sparse_vector(v1, 2.0, v2)
+
+
+
+from collections import defaultdict
+from typing import Set
 
 def find_nonsingleton_words(text: str) -> Set[str]:
     """
@@ -120,5 +168,21 @@ def find_nonsingleton_words(text: str) -> Set[str]:
     Puedes encontrar útil usar collections.defaultdict(int).
     """
     # INICIO
-    raise Exception("Not implemented yet")
+    # Se usa defaultdict para rastrear la frecuencia de cada palabra
+    frecuencia = defaultdict(int)
+
+    # Se divide el texto por palabras
+    palabras = text.split()
+
+    # Se cuenta la frecuencia de cada palabra
+    for palabra in palabras:
+        frecuencia[palabra] += 1
+
+    # Se filtran las palabras que aparecen más de una vez
+    palabrasUnicas = {palabra for palabra, frequency in frecuencia.items() if frequency > 1}
+
+    raise Exception(palabrasUnicas)
     # FIN
+
+ejemplo = "hola mundo hola mundo python programacion python"
+find_nonsingleton_words(ejemplo)
