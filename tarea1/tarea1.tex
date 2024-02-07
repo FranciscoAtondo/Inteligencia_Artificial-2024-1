@@ -48,7 +48,7 @@
   \bfseries
   Inteligencia artificial\\%
   Lic. en Ciencias de la Computación\\%
-  Tarea 0
+  Tarea 1
 }
 \date{}
 
@@ -72,259 +72,143 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% OPTIMIZACIÓN Y PROBABILIDAD %%
+%% Desarrollando la intuición %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{Optimización y probabilidad}
+\section*{Desarrollando la intuición}
+
+  Considera las siguientes dos reseñas de la película Perfect Blue, del sitio Rotten Tomatoes.
+  \newline
+
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{image.png}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.5\linewidth]{image2.png}
+\end{center}
+
+Rotten Tomatoes ha clasificado estas reseñas como “positiva” y “negativa” respectivamente, como se indica por el tomate fresco e intacto en la reseña de arriba y la salpicadura de un tomate podrido en la reseña de abajo. En esta tarea, vas a crear un simple sistema de clasificación de texto que puede realizar esta tarea automáticamente. Vamos a considerar el siguiente conjunto de cuatro mini-reseñas, cada una etiquetada como positiva (+1) o negativa (-1):
 
 \begin{enumerate}
-\item%
-  Sean \(x_1,\dots,x_n\) números reales representando posiciones sobre
-  una recta.  Sean \(w_1,\dots,w_n\) números reales positivos
-  representando la \emph{importancia} de cada una de estas
-  posiciones. Considera la función cuadrática,
-  %% 
-  \[ f(\theta) = \sum_{i=1}^n w_i\left(\theta-x_i\right)^2 \]
-  %% 
-  y que \(\theta\) es un escalar. ¿Qué valor de \(\theta\) minimiza
-  \(f(\theta)\)? Muestra que el óptimo que encontraste es realmente un
-  mínimo. ¿Qué cuestiones problemáticas pueden surgir si algunas de
-  las \(w_i\) son negativas?
-  \begin{solution}
-    \[
-    d_\theta f\left(\theta\right) = d_\theta ( \sum_{i=1}^n w_i (\theta-x_i)^2)\]
-    \[ \longrightarrow \theta = \sum_{i=1}^n 2(\theta - x_i)\] 
-    \[ \longrightarrow \theta = \sum_{i=1}^n 2\theta - \sum_{i=1}^n 2x_i\]
+    \item (-1) not good
+    \item (-1) pretty bad
+    \item (+1) good plot
+    \item (+1) pretty scenery
+\end{enumerate}
+
+Cada reseña G es asignada a un vector de características \begin{math} \phi(x) \end{math}, el cuál asocia cada palabra a la cantidad de veces que aparece en la reseña. Por ejemplo, la segunda reseña se asigna al vector disperso de características \begin{math} \phi(x) = \end{math} \{pretty : 1, bad : 1\}. Recuerda la definición de la \textit{pérdida de articulación},
+
+\begin{center}
+    \begin{math}
+        Loss_{hinge}(x,y,w) = 
+    \end{math}
+    max
+    \begin{math}
+        \{ 0,1-w * \phi(x)y \}
+    \end{math}
+    ,
+\end{center}
+
+donde \textit{x} es el texto de la reseña, \textit{y} es la clasificacion correcta y \textit{w} es el vector de pesos.
+
+\begin{enumerate}
+    \item Supongamos que corres el descenso de gradiente estocástico una vez por cada una de las cuatro reseñas de arriba en el mismo orden, actualizando los pesos de acuerdo a,
     
-  \end{solution}
-\item%
-  Considera las siguientes funciones,
-  %% 
-  \[
-  \begin{aligned}
-    f(\bvec{x}) &= \min_{s\in[-1,1]}\sum_{i=1}^d sx_i \\
-    g(\bvec{x}) &= \sum_{i=1}^d \min_{s_i\in[-1,1]} s_ix_i
-  \end{aligned}
-  \]
-  donde \(\bvec{x} = (x_1,\dots,x_d)\in\mathbb{R}^d\) es un
-  vector real y \([-1,1]\) el intervalo cerrado entre \(-1\) a
-  \(1\). ¿Cuál de las siguientes desigualdades es cierta para toda
-  \(\bvec{x}\)?  Demuéstralo.
-  %% 
-  \[
-  \begin{aligned}
-    f(\bvec{x}) &\leq g(\bvec{x}) \\
-    f(\bvec{x}) &= g(\bvec{x}) \\
-    f(\bvec{x}) &\geq g(\bvec{x})
-  \end{aligned}
-  \]
-  %% 
-  \begin{solution}
-    %% Escribe tu solución aquí
-  \end{solution}    
-\item%
-  Supongamos que lanzas repetidamente un dado justo de seis caras
-  hasta que obtienes un resultado de \(1\) (y luego te detienes).
-  Cada vez que lanzas un \(3\) ganas \(a\) puntos, y cada vez que
-  lanzas un \(6\) pierdes \(b\) puntos.  No ganas ni pierdes puntos si
-  lanzas un \(2\), \(4\) o \(5\).  ¿Cuál es la cantidad de puntos
-  (como función de \(a\) y \(b\)) que esperamos tener cuando te
-  detengas?
-  %%
-  \begin{solution}
-    %% Escribe tu solución aquí
-  \end{solution}
-\item%
-  Supongamos que la probabilidad de que una moneda caiga en águila es
-  \(p\) (donde \(0 < p < 1\)), y que lanzas esta moneda cinco veces
-  obteniendo \(\left(S, A, A, A, A\right)\).  Sabemos que la
-  probabilidad de obtener esta secuencia es,
-  %% 
-  \[ L(p) = (1-p)pppp = p^4(1-p) \]
-  %% 
-  ¿Qué valor de \(p\) maximiza \(L(p)\)? Muestra que este valor de
-  \(p\) maximiza \(L(p)\). ¿Cuál es una interpretación intuitiva de
-  este valor de \(p\)?
-  %% 
-  \begin{solution}
-    %% Escribe tu solución aquí
-  \end{solution}
-\item%
-  Supongamos que \(A\) y \(B\) son dos eventos tales que \(P(A \mid B)
-  = P(B \mid A)\).  También sabemos que \(P(A \cup B) = \frac{1}{3}\)
-  y que \(P(A \cap B) > 0\).  Muestra que \(P(A) > \frac{1}{6}\).
-  %% 
-  \begin{solution}
-    %% Escribe tu solución aquí
-  \end{solution}
-  
-\item%
-  Considera un vector columna \(\bvec{w}\in\mathbb{R}^d\) y vectores
-  columna constantes \(\bvec{a}_i,\bvec{b}_j\in\mathbb{R}^d\),
-  \(\lambda\in\mathbb{R}\) y un entero positivo \(n\).  Define la
-  función con valor escalar,
-  %% 
-  \[ f(\bvec{w})=\left(\sum_{i=1}^n\sum_{j=1}^n\left(\bvec{a}_i^\top\bvec{w}-\bvec{b}_j^\top\bvec{w}\right)^2\right)+\frac{\lambda}{2}\norm{\bvec{w}}_2^2, \]
-  %% 
-  donde el vector es \(\bvec{w} = (w_1,\dots,w_d)^\top\) y
-  \(\norm{\bvec{w}}_2 = \sqrt{\sum_{k=1}^d w_k^2} =
-  \sqrt{\bvec{w}^\top\bvec{w}}\) es conocida como la norma \(L_2\).
-  Calcula el gradiente \(\nabla f(\bvec{w})\).
-  %% 
-  \begin{solution}
-    %% Escribe tu solución aquí
-  \end{solution}
-\end{enumerate}
-
-\newpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% COMPLEJIDAD COMPUTACIONAL %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Complejidad computacional}
-
-\begin{enumerate}
-\item%
-  Supongamos que tienes una cuadrícula de puntos de \(n \times n\),
-  donde nos gustaría colocar \(3\) rectángulos alineados a los ejes
-  (los lados del rectángulo son paralelos a los ejes).  Cada esquina
-  de cada rectángulo debe ser uno de los puntos en la cuadrícula, pero
-  fuera de eso no hay restricciones sobre la ubicación o tamaño de los
-  rectángulos.  Por ejemplo, es posible que las cuatro esquinas de un
-  rectángulo estén en el mismo punto (resultando en un rectángulo de
-  tamaño \(0\)), o que todos los \(3\) rectángulos estén encimados.
-  ¿De cuántas maneras se pueden colocar los \(3\) rectángulos sobre la
-  cuadrícula?  En general, solo nos importa la complejidad asintótica,
-  entonces escribe tu respuesta de la forma \(O(n^c)\) o de la forma
-  \(O(c^n)\) para algún entero \(c\).
-  %% 
-  \begin{solution}
-  %%
-     Como se trata de 3 rectangulos, y la posicion y tamaño de estas no importa, mientras que las esquinas de estos esten en la cuadricula, podemos usar dos esquinas opuestas de dos rectangulos diferentes para crear otro rectangulo, del cual seleccionamos otras 4 esquinas opuestas para crear otros dos rectangulos. Esto nos da un total de $n^2 * n^2 * n^2$, o $ n^6 $ opciones, el cual se debe dividir entre las formas de crear los rectangulos:
-     \[ \frac{n^6}{3!} \]
-     Lo cual se puede expresar Asintoticamente como: $ O(n^6) $
-    %%\[ f(C) = \sum_{i=0}^n \]
-  %%
-  \end{solution}
-\newpage
-\item%
-  Supongamos que tienes una cuadrícula de puntos de \(n \times 2n\).
-  Comenzamos en el punto de la esquina superior izquierda (el punto en
-  la posición \((1,1)\)), y nos gustaría llegar al punto de la esquina
-  inferior derecha (el punto en la posición \((n, 2n)\)) moviéndose
-  exclusivamente o hacia abajo o hacia la derecha.  Supongamos que se
-  nos provee una función \(c(i,j)\) que produce el costo asociado con
-  la posición \((i,j)\), y supongamos que para cada posición toma
-  tiempo constante calcular este costo.  El costo puede ser negativo.
-  Define el costo de un camino como la suma de \(c(i,j)\) para todos
-  los puntos \((i,j)\) sobre el camino, incluyendo ambos extremos.
-  Presenta un algoritmo para calcular el costo del camino de costo
-  mínimo desde \((1,1)\) hasta \((n,2n)\) de la manera más eficiente
-  posible (con la complejidad en tiempo más pequeña).  ¿Cuál es el
-  tiempo de ejecución?
-  %% 
-  \begin{solution}
-    \begin{lstlisting}[language=Python]
-    def costoMinimo(n, c):
-    # Se inicializa el valor para la recurrencia.
-    recurrencia[i][j] = [[0] * (2 * n + 1) for _ in range(n + 1)]
-
-    #Como el primer punto se encuentra en (1,1),
-    #se suma un 1 a los valores maximos.
-    for i in range(1, n + 1):
-        for j in range(1, 2 * n + 1):
-            recurrencia[i][j] = min(recurrencia[i-1][j], recurrencia[i][j-1]) + c(i, j)
+\begin{center}
+    \begin{math}
+        w \leftarrow w\nabla_w Loss_{hinge}(x,y,w).
+    \end{math}
+\end{center}
     
-    return recurrencia[n][2*n]
-
-    \end{lstlisting}
-    %%
-  \end{solution}
+Después de las actualizaciones, ¿cuáles son los pesos de las seis palabras (“pretty”, “good”, “bad”, “plot”, “not”, “scenery”) que aparecen en las reseñas?
+    
 \end{enumerate}
 
+\begin{itemize}
+    \item utiliza \begin{math}
+        \eta = 0.1
+    \end{math}
+    como tamaño de paso.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% CONSIDERACIONES ÉTICAS %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Consideraciones éticas}
-
-\begin{enumerate}
-\item%
-  Una empresa de inversión desarrolla un modelo simple de aprendizaje
-  automático para predecir si es probable que un individuo incumpla
-  con un préstamo a partir de una variedad de factores, incluida la
-  ubicación, la edad, la puntuación crediticia y los registros
-  públicos.  Después de examinar sus resultados, se encuentra que el
-  modelo predice principalmente en función de la ubicación y que el
-  modelo acepta principalmente préstamos de centros urbanos y niega
-  préstamos a solicitantes rurales.  Además, al observar el género y
-  el origen étnico de los solicitantes, se encuentra que el modelo
-  tiene una tasa de falsos positivos significativamente mayor para los
-  solicitantes negros y masculinos que para otros grupos.  En una
-  predicción falsa positiva, un modelo clasifica erróneamente a
-  alguien que no incumple como probable que incumpla.
-  %% 
-  \begin{solution}
-    Si bien el origen de este problema podria ser socio-cultural, una solucion es implementar una verificacion especial sobre candidatos que cumplan ciertas caracteristicas(como su etnicidad y localizacion) en la que se ignore tales factores y se de prioridad a su Puntuacion Crediticea y su Historial de Pagos actual.
-  \end{solution}
-\newpage
-\item%
-  La estilometría es una forma de predecir la autoría de un texto
-  anónimo o impugnado, mediante el análisis de los patrones de
-  escritura en el texto anónimo y otros textos escritos por los
-  autores potenciales.  Recientemente, se han desarrollado algoritmos
-  de aprendizaje automático de alta precisión para esta tarea.  Si
-  bien estos modelos se utilizan normalmente para analizar documentos
-  históricos y literatura, podrían usarse para desanonimizar una
-  amplia gama de textos, incluido el código.
-  \begin{solution}
-    %% La Estilometria si bien es invasiva en naturaleza, esta es util para detectar plagios o el uso de AI en tales textos.
-  \end{solution}
-
-  La Estilometria si bien es invasiva en naturaleza, esta es util para detectar plagios o el uso de AI en tales textos.
-
-\item%
-  Un grupo de investigación analizó millones de rostros de
-  celebridades de las imágenes de Google para desarrollar una
-  tecnología de reconocimiento facial.  Las celebridades no dieron
-  permiso para que sus imágenes se utilizaran en el conjunto de datos
-  y muchas de las imágenes tienen derechos de autor.  Para fotografías
-  con derechos de autor, el conjunto de datos proporciona enlaces URL
-  a la imagen original junto con cuadros delimitadores para la cara.
-  \begin{solution}
-    %% Si las imagenes estan protegidas por derechos de autor, y tales derechos especifican una norma en contra del uso dado por el detector de rostros, entonces se esta sujeto a un problema legal. Para predecir tales problemas, se puede usar imagenes "stock" distribuidas y de uso libre como alternativa.
-  \end{solution}
-
-  Si las imagenes estan protegidas por derechos de autor, y tales derechos especifican una norma en contra del uso dado por el detector de rostros, entonces se esta sujeto a un problema legal. Para predecir tales problemas, se puede usar imagenes "stock" distribuidas y de uso libre como alternativa.
-  
-\item%
-  Los investigadores han creado recientemente un modelo de aprendizaje
-  automático que puede predecir especies de plantas automáticamente y
-  directamente a partir de una sola fotografía.  El modelo fue
-  entrenado usando fotografías cargadas en una aplicación por usuarios
-  que dieron su consentimiento para usar sus fotografías con fines de
-  investigación, y el modelo solo se usa dentro de la aplicación para
-  ayudar a los usuarios a identificar plantas que podrían encontrar en
-  la naturaleza.
-  %% 
-  \begin{solution}
-    %% Esto en si no tiene ningun problema etico, pero lo que creo se espera responder aqui es como esto podria ser una practica para la identificacion de personas asi como identidades atravez de una practica similar.
-  \end{solution}
-
-    Esto en si no tiene ningun problema etico, pero lo que creo se espera responder aqui es como esto podria ser una practica para la identificacion de personas asi como identidades atravez de una practica similar.
-  
-\end{enumerate}
+    \item inicializa \begin{math}
+        w = [0,0,0,0,0,0]
+    \end{math}
+    .
+    \item El gradiente \begin{math}
+        \nabla_w Loss_{hinge}(x,y,w) = 0
+    \end{math}
+    cuando el margen es exactamente 1.
+\end{itemize}
 
 
-%%%%%%%%%%%%%%%%%%
-%% PROGRAMACIÓN %%
-%%%%%%%%%%%%%%%%%%
-
-\section*{Programación}
 
 \begin{solution}
-  Incorporada en \texttt{tarea0.py}.
+Como el \begin{math}
+     \nabla_w Loss_{hinge}(x,y,w) = 0
+\end{math}
+es cero cuando el margen es exactamente 1, y dado que los valores iniciales de \textit{w} son ceros, la primera actualización de pesos no cambiará los valores de \textit{w} ya que el margen para todas las reseñas es 1 al principio.
+
+\begin{enumerate}
+    \item (-1) not good:
+    
+        \begin{math}
+            Loss_{hinge}=(0,1-w*\eta(x)y) = max(0,1-[0,0,0,0,0,0]*{not : 1, bad : 1}*-1)=0
+         \end{math}
+    
+    Como la perdida total es cero, no hay actualizacion.
+
+    \item (-1) pretty bad:
+        
+        \begin{math}
+            Loss_{hinge}=(0,1-w*\eta(x)y) = max(0,1-[0,0,0,0,0,0]*{pretty : 1, bad : 1}*-1)=2
+         \end{math}
+
+    \item (+1) good plot:
+
+        \begin{math}
+            Loss_{hinge}=(0,1-w*\eta(x)y) = max(0,1-[0,0,0,0,0,0]*{good : 1, plot : 1}*11)=0
+         \end{math}
+
+    \item (+1) good plot:
+
+        \begin{math}
+            Loss_{hinge}=(0,1-w*\eta(x)y) = max(0,1-[0,0,0,0,0,0]*{pretty : 1, scenery : 1}*11)=0
+         \end{math}
+
+    Tras estas actualizaciones, los pesos finales serian:
+
+    \begin{math}
+        w=[0.1,0.1,0,0,0,0]
+    \end{math}
+\end{enumerate}
+
 \end{solution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Desarrollando la intuición %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Desarrollando la intuición}
+
+Supongamos que ahora nos interesa predecir una calificación numérica para reseñas de películas. Utilizaremos un predictor no-lineal que toma una reseña G y regresa \begin{math}
+    \epsilon(w*\phi(x))
+\end{math}, donde
+
+\begin{center}
+    \begin{math}
+        \epsilon(z)=(1+e^{-z})^{-1}
+    \end{math}
+\end{center}
+
+es la función logística que aplasta un número real al rango ¹0 1º. Para este problema, supón que la calificación de película \textit{y} es una variable con valor real en el rango [0,1].
+
+\begin{enumerate}
+    \item Supongamos que queremos usar la \textit{pérdida cuadrática}. Escribe la expresión para Loss(\textit{x,y,w}) para un dato(\textit{x,y}).
+
+    \begin{solution}
+        
+    \end{solution}
+\end{enumerate}
 
 \end{document}
