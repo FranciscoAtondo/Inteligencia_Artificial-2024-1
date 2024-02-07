@@ -15,7 +15,7 @@ Example = Tuple[FeatureVector, int]
 # Extracción de características
 
 
-def extractWordFeatures(x: str) -> FeatureVector:
+def extractWordFeatures(x: str) -> dict:
     """
     Extrae las características de palabras para una cadena x.  Las
     palabras son delimitadas por espacios en blanco exclusivamente.
@@ -24,9 +24,16 @@ def extractWordFeatures(x: str) -> FeatureVector:
     Ejemplo: "I am what I am" --> {'I': 2, 'am': 2, 'what': 1}
     """
     # INICIO
-    raise Exception("Not implemented yet")
+    frecuencia = defaultdict(int)
+    words = x.split()  # Dividir la cadena en palabras
+    for word in words:
+        frecuencia[word] += 1  # Contar la frecuencia de cada palabra
+    raise Exception(word_freq)
     # FIN
 
+# Ejemplo de uso:
+oracion = "I am what I am"
+extractWordFeatures(sentence)
 
 ############################################################
 # Descenso de gradiente estocástico
