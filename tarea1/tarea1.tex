@@ -201,13 +201,32 @@ Supongamos que ahora nos interesa predecir una calificación numérica para rese
     \end{math}
 \end{center}
 
-es la función logística que aplasta un número real al rango ¹0 1º. Para este problema, supón que la calificación de película \textit{y} es una variable con valor real en el rango [0,1].
+es la función logística que aplasta un número real al rango (0, 1). Para este problema, supón que la calificación de película \textit{y} es una variable con valor real en el rango [0,1].
 
 \begin{enumerate}
     \item Supongamos que queremos usar la \textit{pérdida cuadrática}. Escribe la expresión para Loss(\textit{x,y,w}) para un dato(\textit{x,y}).
 
     \begin{solution}
-        
+        Sea:
+        \begin{itemize}
+            \item \textit{x}: el texto de la reseña.
+            \item \textit{y}: la calificacion de la pelicula, con un valor real en el rango [0,1]
+            \item \textit{w}: el vector de pesos
+            \item \begin{math}
+                \phi(x)
+            \end{math}: el vector de caracteristicas que asigna cada palabra a la candida de veces que aprece esta en la reseña.
+            \item \begin{math}
+                \epsilon(z)=(1+e^{-z})^{-1}
+            \end{math}: la Funcion Logistica de las caracteristicas de los pesos.
+        \end{itemize}
+
+        Por lo que la expresion para la perdida cuadratica para un dato (x,y) seria:
+
+    \begin{center}
+        \begin{math}
+            Loss(x,y,w)=y-\epsilon(w*\phi(x)))^2
+        \end{math}
+    \end{center}
     \end{solution}
 \end{enumerate}
 
