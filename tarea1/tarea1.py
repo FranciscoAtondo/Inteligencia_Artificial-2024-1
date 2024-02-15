@@ -63,7 +63,30 @@ def learnPredictor(trainExamples: List[Tuple[T, int]],
     weights = {}  # característica => peso
 
     # INICIO
-    raise Exception("Not implemented yet")
+    """
+    Por cada epoca, y por cada ejemplo, se toma un "feature" del ejemplo y se obtiene
+    el producto punto de los pesos y features actuales. Si el producto de label por
+    la puntuacion es menor o igual a 0, se considera mal calificado y por cada feature
+    y value en feature.items se almacena en weights el valor de 
+    weights + eta * label * value.
+
+    Al final de cada epoca se evuala la precision del predictor. 
+    """
+    for epoch in range(numEpochs):
+        for example, label in trainExamples:
+            features = featureExtractor(example)
+            score = dotProduct(weights, features)
+            if label * score <= 0:  # Si el ejemplo está mal clasificado
+                for feature, value in features.items():
+                    weights[feature] = weights.get(feature, 0) + eta * label * value
+
+        # Evalúa el predictor después de cada época
+        trainAccuracy = evaluatePredictor(trainExamples, lambda x: 1 if dotProduct(featureExtractor(x), weights) > 0 else -1)
+        validationAccuracy = evaluatePredictor(validationExamples, lambda x: 1 if dotProduct(featureExtractor(x), weights) > 0 else -1)
+        print(f"Epoch {epoch + 1}: Train Accuracy = {trainAccuracy}, Validation Accuracy = {validationAccuracy}")
+        print(f"Epoch {epoch + 1}: Train Accuracy = {trainAccuracy}, Validation Accuracy = {validationAccuracy}")
+        
+    raise Exception(weights)
     # FIN
     return weights
 
