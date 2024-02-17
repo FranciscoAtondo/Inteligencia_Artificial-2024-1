@@ -153,3 +153,10 @@ def outputClusters(path: str, examples: List[Dict[str, float]], centers: List, a
             if z == j:
                 print(' '.join(list(examples[i].keys())), file=out)
     out.close()
+
+def euclidean_distance(x: Dict[str, float], y: Dict[str, float]) -> float:
+    """
+    Calcula la distancia euclidiana entre dos vectores dispersos x e y.
+    """
+    squared_difference = sum((x[feature] - y[feature])**2 for feature in set(x) | set(y))
+    return math.sqrt(squared_difference)
