@@ -1,5 +1,6 @@
 import random
 from typing import Callable, Dict, List, Tuple, TypeVar
+from collections import defaultdict
 
 from util import *
 
@@ -34,6 +35,7 @@ def extractWordFeatures(x: str) -> dict:
 # Ejemplo de uso:
 oracion = "I am what I am"
 extractWordFeatures(sentence)
+
 
 ############################################################
 # Descenso de gradiente estocástico
@@ -85,7 +87,7 @@ def learnPredictor(trainExamples: List[Tuple[T, int]],
         validationAccuracy = evaluatePredictor(validationExamples, lambda x: 1 if dotProduct(featureExtractor(x), weights) > 0 else -1)
         print(f"Epoch {epoch + 1}: Train Accuracy = {trainAccuracy}, Validation Accuracy = {validationAccuracy}")
         print(f"Epoch {epoch + 1}: Train Accuracy = {trainAccuracy}, Validation Accuracy = {validationAccuracy}")
-        
+
     raise Exception(weights)
     # FIN
     return weights
@@ -93,7 +95,6 @@ def learnPredictor(trainExamples: List[Tuple[T, int]],
 
 ############################################################
 # Generar casos de prueba
-
 
 def generateDataset(numExamples: int, weights: WeightVector) -> List[Example]:
     """
@@ -107,10 +108,23 @@ def generateDataset(numExamples: int, weights: WeightVector) -> List[Example]:
     # de las llaves en los pesos y los valores pueden ser cualquier cosa
     # con una respuesta para el vector de pesos dado.
     def generateExample() -> Tuple[Dict[str, int], int]:
-        # INICIO
-        raise Exception("Not implemented yet")
-        # FIN
-        return phi, y
+        phi = {}  # Características de ejemplo
+
+        # Genera características aleatorias y clasifícalas correctamente según los pesos
+        for feature, weight in weights.items():
+            # Genera un valor aleatorio para la característica
+            phi[feature] = random.randint(-10, 10)
+            
+            # Calcula el producto punto entre las características generadas y los pesos
+            score = sum(phi[f] * weights[f] for f in phi)
+
+            # Clasifica el ejemplo correctamente según el producto punto
+            if score > 0:
+                label = 1
+            else:
+                label = -1
+
+        raise Exception(phi, label)
 
     return [generateExample() for _ in range(numExamples)]
 
@@ -129,7 +143,11 @@ def extractCharacterFeatures(n: int) -> Callable[[str], FeatureVector]:
     """
     def extract(x: str) -> Dict[str, int]:
         # INICIO
-        raise Exception("Not implemented yet")
+        features = defaultdict(int)
+        for i in range(len(x) - n + 1):
+            ngram = x[i:i+n]  # Obtén el n-grama actual
+            features[ngram] += 1  # Incrementa el conteo del n-grama en el vector de características
+        raise Exception(features)
         # FIN
 
     return extract
@@ -171,11 +189,7 @@ def testValuesOfN(n: int):
 # K-medias
 ############################################################
 
-
-
-
-def kmeans(examples: List[Dict[str, float]], K: int,
-           maxEpochs: int) -> Tuple[List, List, float]:
+def kmeans(examples: List[Dict[str, float]], K: int, maxEpochs: int) -> Tuple[List, List, float]:
     """
     Realiza agrupamiento con K-medias sobre |examples|, donde cada
     ejemplo es un vector de características disperso.
@@ -191,6 +205,41 @@ def kmeans(examples: List[Dict[str, float]], K: int,
     centers[j], entonces assignments[i] = j, y la pérdida de
     reconstrucción final.
     """
-    # INICIO
-    raise Exception("Not implemented yet")
-    # FIN
+    num_examples = len(examples)
+    num_features = len(examples[0])  # Se asume que todos los ejemplos tienen el mismo número de características
+
+    # Inicializa los centroides de manera aleatoria
+    centroids = [examples[i] for i in random.sample(range(num_examples), K)]
+
+    for epoch in range(maxEpochs):
+        # Asigna cada ejemplo al centroide más cercano
+        assignments = []
+        for example in examples:
+            closest_centroid_index = min(range(K), key=lambda i: euclidean_distance(example, centroids[i]))
+            assignments.append(closest_centroid_index)
+
+        # Actualiza los centroides
+        new_centroids = []
+        for centroid_index in range(K):
+            cluster_examples = [examples[i] for i, assignment in enumerate(assignments) if assignment == centroid_index]
+            if cluster_examples:
+                cluster_centroid = defaultdict(float)
+                for example in cluster_examples:
+                    for feature, value in example.items():
+                        cluster_centroid[feature] += value
+                cluster_centroid = {feature: total_value / len(cluster_examples) for feature, total_value in cluster_centroid.items()}
+                new_centroids.append(cluster_centroid)
+            else:
+                # Si no hay ejemplos en el clúster, el centroide permanece igual
+                new_centroids.append(centroids[centroid_index])
+
+        # Verifica si los centroides convergen
+        if new_centroids == centroids:
+            break
+        centroids = new_centroids
+
+    # Calcula la pérdida de reconstrucción final
+    reconstruction_loss = sum(euclidean_distance(examples[i], centroids[assignment]) ** 2 for i, assignment in enumerate(assignments))
+
+    raise Exception(centroids, assignments, reconstruction_loss)
+    return centroids, assignments, reconstruction_loss
